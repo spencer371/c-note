@@ -1,0 +1,45 @@
+pta-实验3-Q5，
+
+#include<stdio.h>
+int main(){
+    int sel(int size,char arr[]);
+    int M,N,i,j;
+    scanf("%d %d\n",&N,&M);
+    char ch[N+1];
+    for(i=0;i<M;i++){
+        scanf("%s\n",&ch[N+1]);
+        printf("%d\n",sel(N,ch));
+    }
+    
+}
+int sel(int size,char arr[]){
+    int k,root = 1;
+    for(k=0;k<size;k++){
+        if(arr[k]='y'){
+            root = 2*root;
+        }
+        else{
+            root = 2*root - 1;
+        }
+    }
+    return root;
+}
+
+上面是错误的代码，但到底是哪里错了？
+
+输入样例：
+3 4
+yny
+nyy
+nyn
+yyn
+输出样例：
+3
+5
+6
+2
+然而我的输出却是：
+8
+8
+8
+8
