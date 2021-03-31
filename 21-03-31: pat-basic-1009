@@ -1,0 +1,75 @@
+pat-basic-1009
+
+Solution_1:
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+using namespace std;
+
+int main(){
+    string s,s1;
+    while(cin>>s1){
+        s += ' '+s1;//the ' ' is critical, which can help us identify the words'boundary.but string s's first char is also' ', so we should be cautious.  
+    }//the input form is string. If you choose vector, you would have to input the chars one by one.
+
+    int len = s.length();
+    vector<char>str(len);
+    for(int i=0;i<len;i++){
+        str[i] = s[i];
+    }//"transfer" string into vector. Attention: The last char of the vector is ' '.
+    reverse(str.begin(),str.end());//from <algorithm>
+    
+    int tmp = 0;
+    for(int i=0;i<len;i++){
+        if(str[i]==' '){
+            reverse(str.begin()+tmp,str.begin()+i);
+            tmp = i+1;
+        }
+    }//reverse the words. Thanks for the last char ' ', we can also reverse the last word!
+    
+    for(int i=0;i<len-1;i++){//i<len-1, not i<len, because we don't want the end of the output to be ' '.
+        printf("%c",str[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+Solution_2:
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <stack>
+using namespace std;
+
+int main(){
+    int n=0;
+    string s;
+    stack<string> stk;
+    while(cin>>s){
+        stk.push(s);
+        n++;
+    }
+    
+    int flag = 0;
+    while(!stk.empty()){
+        if(flag)
+            printf(" ");
+        cout<<stk.top();
+        stk.pop();
+        flag = 1;
+    }
+    
+    //or:
+    /*for(int i=0;i<n-1;i++){
+        cout<<stk.top()<<" ";
+        stk.pop();
+    }
+    cout<<stk.top();*/
+    
+    printf("\n");
+    return 0;
+}
