@@ -1,0 +1,46 @@
+#include<iostream>
+#include<stack>
+#include<cmath>
+using namespace std;
+
+int main(){
+    void opt(int x);
+    int num,p=10,bit;
+    stack<int> stk;
+    cin>>num;
+    if(num<0){
+        cout<<"fu ";
+        num = abs(num);
+    }
+    
+    while(num!=0){
+        bit = num%p;
+        stk.push(bit);
+        num = num/p;
+    }//huo qv zheng zhu ge wei shu zi de miao fa.
+
+    while(!stk.empty()){
+        opt(stk.top());
+        stk.pop();
+        if(stk.empty())
+            break;
+        cout<<" ";
+    }
+    
+    return 0;
+}
+
+void opt(int x){
+    switch(x){
+        case 0:cout<<"ling";break;
+        case 1:cout<<"yi";break;
+        case 2:cout<<"er";break;
+        case 3:cout<<"san";break;
+        case 4:cout<<"si";break;
+        case 5:cout<<"wu";break;
+        case 6:cout<<"liu";break;
+        case 7:cout<<"qi";break;
+        case 8:cout<<"ba";break;
+        case 9:cout<<"jiu";break;
+    }
+}
