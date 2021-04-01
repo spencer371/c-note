@@ -48,3 +48,69 @@ void opt(int x){
     }
 }
 
+
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<math.h>
+int main(){
+    double a,b,c,dt;
+    double x1,x2;
+    scanf("%lf %lf %lf",&a,&b,&c);
+    dt = b*b-4*a*c;//AFTER SCANF!!!!!!!!!!!!!!!!!!!!!!!!
+    if(fabs(a)<1e-7){
+        if(fabs(b)>1e-7){
+            if(fabs(-c/b)<1e-7)
+                printf("x = 0");
+            else
+                printf("x = %lg",-c/b);
+        }
+        if(fabs(b)<1e-7&&fabs(c)<1e-7)
+            printf("无穷多解");
+        if(fabs(b)<1e-7&&fabs(c)>1e-7)
+            printf("无解");
+    }
+    else{
+        if(dt>1e-7){
+            x1 = (-b+sqrt(dt))/(2*a);
+            x2 = (-b-sqrt(dt))/(2*a);
+            if(x1-x2>1e-7){
+                double tmp;
+                x1 = tmp;
+                tmp = x2;
+                x1 = tmp;
+            }
+            if(fabs(x1)<1e-7)
+                x1 = 0;
+            if(fabs(x2)<1e-7)
+                x2 = 0;
+            printf("x1 = %lg, x2 = %lg",x1,x2);
+        }
+        if(fabs(dt)<1e-7){
+            if(fabs(-b/(2*a))<1e-7)
+                printf("x1 = x2 = 0");
+            else
+                printf("x1 = x2 = %lg",-b/(2*a));
+        }
+        if(dt<-1e-7){
+            if(fabs(fabs(sqrt(4*a*c-b*b)/(2*a))-1)<1e-7&&fabs(-b/(2*a))<1e-7)
+                printf("x1 = 0+i, x2 = 0-i",-b/(2*a),-b/(2*a));
+            if(fabs(fabs(sqrt(4*a*c-b*b)/(2*a))-1)>1e-7&&fabs(-b/(2*a))<1e-7)
+                printf("x1 = 0+%lgi, x2 = 0-%lgi",sqrt(4*a*c-b*b)/(2*a),sqrt(4*a*c-b*b)/(2*a));
+            if(fabs(fabs(sqrt(4*a*c-b*b)/(2*a))-1)<1e-7&&fabs(-b/(2*a))>1e-7)
+                printf("x1 = %lg+i, x2 = %lg-i",-b/(2*a),-b/(2*a));
+            if(fabs(fabs(sqrt(4*a*c-b*b)/(2*a))-1)>1e-7&&fabs(-b/(2*a))>1e-7)
+                //shangmianbunengxie else , fou ze hui bei bianyiqi renwei shi shangyige "if" de else ,jin er chong fu shuru.
+                printf("x1 = %lg+%lgi, x2 = %lg-%lgi",-b/(2*a),sqrt(4*a*c-b*b)/(2*a),-b/(2*a),sqrt(4*a*c-b*b)/(2*a));
+        }
+    }
+    return 0;
+}
+               
+//dt dengyu zhengfu 1e-7 de qingkuang mei kaolvdao ba?
+//wangshangde -b/(2*a)==0 keyima? weisha bushi fabs()<1e-7?
