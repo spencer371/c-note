@@ -8,6 +8,9 @@ int main(){
     int num,p=10,bit;
     stack<int> stk;
     cin>>num;
+    if(num==0)
+        cout<<"ling";
+    
     if(num<0){
         cout<<"fu ";
         num = abs(num);
@@ -44,3 +47,4 @@ void opt(int x){
         case 9:cout<<"jiu";break;
     }
 }
+
