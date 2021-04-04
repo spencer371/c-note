@@ -1,0 +1,79 @@
+pta 实验2-6
+
+ASCII码实战
+给出一系列字符，有大小写英文字母和其他一些字符（仅涉及ASCII打印字符，即ASCII码值>=32），现在想让你鉴别以下这些字符。如果是英文字母则输出其ASCII码值，否则输出"illegal"（不包含引号）。
+
+输入格式:
+第一行一个整数N (0 <= N <= 1000000)，表示接下来会有多少个字符。 之后N行，每行一个字符。
+
+输出格式:
+对于每个字符，如果是大小写英文字母，则输出其ASCII码值，否则输出"illegal"（不包含引号）
+
+输入样例:
+在这里给出一组输入。例如：
+3
+A
+b
+#
+
+输出样例:
+在这里给出相应的输出。例如：
+65
+98
+illegal
+
+本来是用c++stl写的，然而写出来后显示超时。
+题里说了0 <= N <= 1000000，所以oj在测试程序的时候，肯定会试一些N超大的输入；而且vector是先复制原数组再迁移，以此进行扩容的，最后导致时间会很长。
+所以别用stl了，用c写吧。
+
+下面是用stl写的超时的程序。尝试了几个N很小的输入，输出是正确的，但是N超大的时候肯定就不行了。
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int main(){
+    int ct=0,N;
+    char ch;
+    vector<char> chs;
+    cin>>N;
+    
+    while(N--){
+        cin>>ch;   //c++中cin>>的特性：就算输入是3 A b #(即没有换行，中间用空格分开)也能正常运行。输入是3Ab#，也行；几个字符之间隔了好几个换行，也行。这与c的printf很不一样。
+        chs.push_back(ch);
+        if((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z'))
+            cout<<(int)ch<<endl;
+        else
+            cout<<"illegal"<<endl;
+    }
+    return 0;
+}
+
+
+
+下面是用c写的程序。
+
+#include<stdio.h>
+int main(){
+    int i,N;
+    char ch[1000000];
+    scanf("%d",&N); //不用写scanf("%d\n",&N),只要输入字符的间隔是1个空格或1个换行，就行。当然printf()里得加\n
+    while(getchar()&&i<N)
+        scanf("%c",&ch[i++]);
+    /*另一种可行的输入方法：
+    for(i=0;i<N;i++)
+        if(getchar())
+        scanf("%c",&ch[i]);
+    不管如何getchar()的判断都是scanf()输入过程中必须要有的。
+    不用写scanf("%d\n",&N),只要输入字符的间隔是1个空格或1个换行，就行。当然，后面的printf()里得加\n。
+    */
+    for(i=0;i<N;i++){
+        if((ch[i]>='A'&&ch[i]<='Z')||(ch[i]>='a'&&ch[i]<='z'))
+            printf("%d\n",ch[i]);
+        else
+            printf("illegal\n");
+    }
+    return 0;
+}
+
