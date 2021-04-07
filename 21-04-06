@@ -1,28 +1,78 @@
+10 打dotaⅡ
+在DOTA2中，乞求者卡尔可以召唤三种元素，冰(Quas)，雷(Wex)，火(Exort)，当你按下Q时，他会召唤一个冰元素，按下W召唤雷元素，按下E召唤火元素。所有元素总数量最大为3，这意味着当你已经拥有了3个任意元素时，若你再召唤一个元素，则最先召唤出的元素会消失，新元素诞生。与此同时，他还有一个技能-元素祈唤(R)。元素祈唤可以根据你当前拥有的各类元素数量施放不同的技能，施放技能后，元素并不会消失，当元素数量不足三个的时候不能施放出技能。更详细解释请看样例说明。请你根据卡尔的操作，打印出他放了什么技能,若不能施放出技能，则输出” FFFFFFFK”。技能列表如下图所示：
+
+tup.png
+
+输入格式:
+一个只包含QWER的字符串，且长度不超过10^6。
+输出格式:
+每次卡尔按下R，就输出一个答案，每个答案占一行。
+
+输入样例:
+EERERWRWRWRR
+输出样例:
+FFFFFFFK
+Sun Strike
+Chaos Meteor
+Alacrity
+EMP
+EMP
+
+###提示： 状态没有顺序，比如WEE和EWE和EEW是相同的
+
+在第一次使用R时，卡尔的状态为EE，并不能用出技能。
+
+在第二次使用R时，卡尔的状态为EEE，能够使用Sun Strike
+
+在第三次使用R时，卡尔的状态为EEW，能够使用Chaos Meteor
+
+在第四次使用R时，卡尔的状态为EWW，能够使用Alacrity
+
+在第五次使用R时，卡尔的状态为WWW,能够使用EMP
+
+在第六次使用R时，卡尔的状态为WWW,能够使用EMP
+===============================================================================================================================
+下面是一个运行超时的c语言解法，超时的原因应该是：次数超多的循环内部还有循环。
+
 #include<stdio.h>
+#include<string.h>
+
+void dota(char *c){
+    if(strlen(c)<3) printf("FFFFFFFK\n");
+    else if(strcmp(c,"WWW")==0) printf("EMP\n");
+    else if(strcmp(c,"QWW")==0||strcmp(c,"WQW")==0||strcmp(c,"WWQ")==0) printf("Tornado\n");
+    else if(strcmp(c,"EWW")==0||strcmp(c,"WEW")==0||strcmp(c,"WWE")==0) printf("Alacrity\n");
+    else if(strcmp(c,"QQW")==0||strcmp(c,"QWQ")==0||strcmp(c,"WQQ")==0) printf("Ghost Walk\n");
+    else if(strcmp(c,"WEE")==0||strcmp(c,"EWE")==0||strcmp(c,"EEW")==0) printf("Chaos Meteor\n");
+    else if(strcmp(c,"QQQ")==0) printf("Cold Snap\n");
+    else if(strcmp(c,"QQE")==0||strcmp(c,"QEQ")==0||strcmp(c,"EQQ")==0) printf("Ice Wall\n");
+    else if(strcmp(c,"QEE")==0||strcmp(c,"EQE")==0||strcmp(c,"EEQ")==0) printf("Forge Spirit\n");
+    else if(strcmp(c,"EEE")==0) printf("Sun Strike\n");
+    else printf("Deafening Blast\n");
+}
+
 int main(){
-    int Q=0,W=0,E=0,ct;
-    char ch[1000001];
-    for(int i=0;i<1000001;i++){
-        scanf("%c",&ch[i]);
-    }
-    for(int i=0;i<1000001;i++){
-        if(ch[i]=='R'){
-            if(i<=3)
-                printf("FFFFFFFK\n");
+    char a[1000005];
+    char b[4] = {'\0','\0','\0','\0'};
+    for(int i=0;i<1000000;i++)
+        scanf("%c",&a[i]);
+    for(int i=0;i<strlen(a);i++){
+        if(a[i]=='R')
+            dota(b);   //字符数组中的'\0'不算进strlen()里。
+        else{
+            if(strlen(b)<3)
+                b[strlen(b)] = a[i];
             else{
-                for(int j=i-1;j>=0;j--){
-                    if(ch[j]=='Q')
-                        Q += 1;
-                    if(ch[j]=='W')
-                        W += 1;
-                    if(ch[j]=='E')
-                        E += 1;
-                    ct = Q + W + E;
-                    if(ct==3)
-                        break;
-                }
-                
+                b[0] = b[1];
+                b[1] = b[2];
+                b[2] = a[i];
             }
         }
     }
+    return 0;
 }
+
+===========================================================================================================================================
+c++stl解法，用deque和queue应该都可。
+
+
