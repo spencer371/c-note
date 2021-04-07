@@ -32,36 +32,48 @@ EMP
 
 在第六次使用R时，卡尔的状态为WWW,能够使用EMP
 ===============================================================================================================================
-下面是一个运行超时的c语言解法，超时的原因应该是：次数超多的循环内部还有循环。
-
-#include<stdio.h>
-#include<string.h>
-
+c语言算法
+#include <stdio.h>
+#include <string.h>
 void dota(char *c){
-    if(strlen(c)<3) printf("FFFFFFFK\n");
-    else if(strcmp(c,"WWW")==0) printf("EMP\n");
-    else if(strcmp(c,"QWW")==0||strcmp(c,"WQW")==0||strcmp(c,"WWQ")==0) printf("Tornado\n");
-    else if(strcmp(c,"EWW")==0||strcmp(c,"WEW")==0||strcmp(c,"WWE")==0) printf("Alacrity\n");
-    else if(strcmp(c,"QQW")==0||strcmp(c,"QWQ")==0||strcmp(c,"WQQ")==0) printf("Ghost Walk\n");
-    else if(strcmp(c,"WEE")==0||strcmp(c,"EWE")==0||strcmp(c,"EEW")==0) printf("Chaos Meteor\n");
-    else if(strcmp(c,"QQQ")==0) printf("Cold Snap\n");
-    else if(strcmp(c,"QQE")==0||strcmp(c,"QEQ")==0||strcmp(c,"EQQ")==0) printf("Ice Wall\n");
-    else if(strcmp(c,"QEE")==0||strcmp(c,"EQE")==0||strcmp(c,"EEQ")==0) printf("Forge Spirit\n");
-    else if(strcmp(c,"EEE")==0) printf("Sun Strike\n");
-    else printf("Deafening Blast\n");
+    if (strlen(c) < 3)
+        printf("FFFFFFFK\n");
+    else{
+        if (strcmp(c, "WWW") == 0)
+            printf("EMP\n");
+        else if (strcmp(c, "QQQ") == 0)
+            printf("Cold Snap\n");
+        else if (strcmp(c, "EEE") == 0)
+            printf("Sun Strike\n");
+        else if (strcmp(c, "QWW") == 0 || strcmp(c, "WWQ") == 0 || strcmp(c, "WQW") == 0)
+            printf("Tornado\n");
+        else if (strcmp(c, "WWE") == 0 || strcmp(c, "EWW") == 0 || strcmp(c, "WEW") == 0)
+            printf("Alacrity\n");
+        else if (strcmp(c, "QQE") == 0 || strcmp(c, "QEQ") == 0 || strcmp(c, "EQQ") == 0)
+            printf("Ice Wall\n");
+        else if (strcmp(c, "QEE") == 0 || strcmp(c, "EQE") == 0 || strcmp(c, "EEQ") == 0)
+            printf("Forge Spirit\n");
+        else if (strcmp(c, "WEE") == 0 || strcmp(c, "EWE") == 0 || strcmp(c, "EEW") == 0)
+            printf("Chaos Meteor\n");
+        else if (strcmp(c, "QQW") == 0 || strcmp(c, "QWQ") == 0 || strcmp(c, "WQQ") == 0)
+            printf("Ghost Walk\n");
+        else
+            printf("Deafening Blast\n");
+    }
 }
 
 int main(){
-    char a[1000005];
-    char b[4] = {'\0','\0','\0','\0'};
-    for(int i=0;i<1000000;i++)
-        scanf("%c",&a[i]);
-    for(int i=0;i<strlen(a);i++){
-        if(a[i]=='R')
-            dota(b);   //字符数组中的'\0'不算进strlen()里。
+    int n,j = 0;
+    char a[1000001];
+    char b[4]={'\0','\0','\0','\0'};
+    scanf("%s", a);
+    n = strlen(a);//不写这行，直接下面写i<strlen(a)不行吗？我认为，如果那么写，每执行一次都得重复运算一次strlen(a)，既费时还没用。
+    for (int i = 0; i < n; i++){
+        if (a[i] == 'R')
+            dota(b);  //字符数组中的'\0'不算进strlen()里。
         else{
-            if(strlen(b)<3)
-                b[strlen(b)] = a[i];
+            if(j < 3)
+                b[j++] = a[i];//与上面类似，这里把j++换成strlen(b)表面上看来好像可以，但是这导致每执行一次循环都得执行一次strlen()函数，用时会变多，容易超时.毕竟strlen()是O(N)，如果是O(1)的函数应该没这问题。
             else{
                 b[0] = b[1];
                 b[1] = b[2];
@@ -71,8 +83,52 @@ int main(){
     }
     return 0;
 }
-
 ===========================================================================================================================================
 c++stl解法，用deque和queue应该都可。
+#include<iostream>
+#include<queue>
+#include<string>
+using namespace std;
+void dota(char *c){
+    if (q.size()<3)
+        printf("FFFFFFFK\n");
+    else{
+        if (strcmp(c, "WWW") == 0)
+            cout<<"EMP"<<endl;
+        else if (strcmp(c, "QQQ") == 0)
+            cout<<"Cold Snap"<<endl;
+        else if (strcmp(c, "EEE") == 0)
+            cout<<"Sun Strike"<<endl;
+        else if (strcmp(c, "QWW") == 0 || strcmp(c, "WWQ") == 0 || strcmp(c, "WQW") == 0)
+            cout<<"Tornado"<<endl;
+        else if (strcmp(c, "WWE") == 0 || strcmp(c, "EWW") == 0 || strcmp(c, "WEW") == 0)
+            cout<<"Alacrity"<<endl;
+        else if (strcmp(c, "QQE") == 0 || strcmp(c, "QEQ") == 0 || strcmp(c, "EQQ") == 0)
+            cout<<"Ice Wall"<<endl;
+        else if (strcmp(c, "QEE") == 0 || strcmp(c, "EQE") == 0 || strcmp(c, "EEQ") == 0)
+            cout<<"Forge Spirit"<<endl;
+        else if (strcmp(c, "WEE") == 0 || strcmp(c, "EWE") == 0 || strcmp(c, "EEW") == 0)
+            cout<<"Chaos Meteor"<<endl;
+        else if (strcmp(c, "QQW") == 0 || strcmp(c, "QWQ") == 0 || strcmp(c, "WQQ") == 0)
+            cout<<"Ghost Walk"<<endl;
+        else
+            cout<<"Deafening Blast"<<endl;
+    }
+}
 
+int main(){
+    queue<char> q;
+    string s;
+    cin>>s;
+    int sz = s.size();
+    for(int i=0;i<sz;i++){
+        if(s[i]=='R')
+            dota(q);
+        else{
+            if(q.size()<3) q.pop();
+            q.push(s[i]);
+        }
+    }
+    return 0;
+}
 
