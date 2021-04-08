@@ -84,51 +84,46 @@ int main(){
     return 0;
 }
 ===========================================================================================================================================
-c++stl解法，用deque和queue应该都可。
+c++stl解法，用到deque
+
+
 #include<iostream>
-#include<queue>
+#include<vector>
+#include<deque> //queue没at，在这里不方便。
 #include<string>
 using namespace std;
-void dota(char *c){
-    if (q.size()<3)
-        printf("FFFFFFFK\n");
-    else{
-        if (strcmp(c, "WWW") == 0)
-            cout<<"EMP"<<endl;
-        else if (strcmp(c, "QQQ") == 0)
-            cout<<"Cold Snap"<<endl;
-        else if (strcmp(c, "EEE") == 0)
-            cout<<"Sun Strike"<<endl;
-        else if (strcmp(c, "QWW") == 0 || strcmp(c, "WWQ") == 0 || strcmp(c, "WQW") == 0)
-            cout<<"Tornado"<<endl;
-        else if (strcmp(c, "WWE") == 0 || strcmp(c, "EWW") == 0 || strcmp(c, "WEW") == 0)
-            cout<<"Alacrity"<<endl;
-        else if (strcmp(c, "QQE") == 0 || strcmp(c, "QEQ") == 0 || strcmp(c, "EQQ") == 0)
-            cout<<"Ice Wall"<<endl;
-        else if (strcmp(c, "QEE") == 0 || strcmp(c, "EQE") == 0 || strcmp(c, "EEQ") == 0)
-            cout<<"Forge Spirit"<<endl;
-        else if (strcmp(c, "WEE") == 0 || strcmp(c, "EWE") == 0 || strcmp(c, "EEW") == 0)
-            cout<<"Chaos Meteor"<<endl;
-        else if (strcmp(c, "QQW") == 0 || strcmp(c, "QWQ") == 0 || strcmp(c, "WQQ") == 0)
-            cout<<"Ghost Walk"<<endl;
-        else
-            cout<<"Deafening Blast"<<endl;
-    }
-}
-
 int main(){
-    queue<char> q;
+    deque<char> d;
     string s;
     cin>>s;
-    int sz = s.size();
+    int sz = s.size(); //省得每次循环都执行一次：先算好再执行循环。
     for(int i=0;i<sz;i++){
-        if(s[i]=='R')
-            dota(q);
+        if(s[i]=='R'){//为啥不把这里封装成一个函数？因为涉及d.size()、d.at()这样的函数。将队列传入函数时，我们用指针存储队列的首地址，没法做遍历？这部分知识还不太懂，回头查资料写博客。
+            if(d.size()<3)
+                cout<<"FFFFFFFK"<<endl;
+            else{
+                vector<int> a(3); //这样定义vector，数组中的值默认都为0.
+                for(int i=0;i<3;i++){
+                    if(d.at(i)=='W') a[0] += 1;
+                    else if(d.at(i)=='Q') a[1] += 1;
+                    else a[2] += 1;
+                }
+                if (a[0]==3&&a[1]==0&&a[2]==0) cout<<"EMP"<<endl;//不能用==来判断数组是否相等，只能逐位比较。因为==比较的是数组的开始内存地址。
+                else if (a[0]==0&&a[1]==3&&a[2]==0) cout<<"Cold Snap"<<endl;
+                else if (a[0]==0&&a[1]==0&&a[2]==3) cout<<"Sun Strike"<<endl;
+                else if (a[0]==2&&a[1]==1&&a[2]==0) cout<<"Tornado"<<endl;
+                else if (a[0]==2&&a[1]==0&&a[2]==1) cout<<"Alacrity"<<endl;
+                else if (a[0]==0&&a[1]==2&&a[2]==1) cout<<"Ice Wall"<<endl;
+                else if (a[0]==0&&a[1]==1&&a[2]==2) cout<<"Forge Spirit"<<endl;
+                else if (a[0]==1&&a[1]==0&&a[2]==2) cout<<"Chaos Meteor"<<endl;
+                else if (a[0]==1&&a[1]==2&&a[2]==0) cout<<"Ghost Walk"<<endl;
+                else cout<<"Deafening Blast"<<endl;
+            }
+        }
         else{
-            if(q.size()<3) q.pop();
-            q.push(s[i]);
+            d.push_back(s[i]);
+            while(d.size()>3) d.pop_front();
         }
     }
     return 0;
 }
-
