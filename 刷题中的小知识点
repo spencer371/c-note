@@ -1,0 +1,3 @@
+//cout输出double默认有效数字六位，若想修改，使用iomanip库中setprecision()和fixed函数.
+//如想要输出5位有效数字：cout<<setprecision(5)<<S<<endl;
+//想要保留5位小数：cout<<fixed<<setprecision(5)<<S<<endl;
